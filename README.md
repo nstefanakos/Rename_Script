@@ -7,5 +7,6 @@
 # Modes
  You can choose the way that you want your files to be renamed. Either by ascending order, keeping only some characters from the begining of the name or keeping some characters from the end of the name.
 
-# Warning
+# Warnings
  If you choose to run the program through the provided .exe application it may be flagged, before your first run, as a Malware from your Antivirus program.
+ The EXE application is not currently updated.
