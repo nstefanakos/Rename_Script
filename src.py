@@ -120,8 +120,8 @@ while True:
             print('Something went wrong. Please type again your answer! \n')
             flag = 1
     if flag == 0:
-        mode = input('Press the coresponding number to choose mode: \n 0. Rename files with ascending numerical order \n 1. Rename files keeping the first n characters \n 2. Rename files keeping the last n characters \n PRESS ENTER TO QUIT \n Mode: ')
-        if mode == '':
+        mode = input('Press the coresponding number to choose mode: \n 0. Rename files with ascending numerical order \n 1. Rename files keeping the first n characters \n 2. Rename files keeping the last n characters \n \n PRESS Q or q TO QUIT \n \n Mode: ')
+        if mode == 'Q' or mode == 'q':
             break
         elif mode == '0':
             # Loop for each file in the selected folder.
