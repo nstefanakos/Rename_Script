@@ -1,5 +1,7 @@
 import os
 import time
+import shutil
+import datetime
 try :
     from tkinter import Tk, filedialog
 except :
@@ -26,7 +28,7 @@ def access_folder():
         root.attributes('-topmost', True)
 
         # Returns opened path as str.
-        folder_input = filedialog.askdirectory()
+        folder_input = filedialog.askdirectory(initialdir='../', title='Select a folder')
 
         # Making the path relative, so it can be accessed.
         folder = folder_input + '\\'
@@ -39,6 +41,25 @@ def access_folder():
         # Making the path relative, so it can be accessed.
         folder = folder_input + '\\'
         return folder, folder_input
+
+def create_folder():
+    folder_new, folder_input = access_folder()
+    folder_new = folder_new + 'Renamed_files' + '(' + date + ')' + '\\'
+    try:
+        os.mkdir(folder_new)
+    except:
+        print("\nA file with the same name detected, its files will be overwritten if they have the same name!\n")
+        time.sleep(5)
+        print("If you don't agree stop the process now!(Ctrl-C)\n")
+        time.sleep(5)
+        print("\nThe operation will start in 5 seconds\n")
+        time.sleep(5)
+    finally:
+        for file_name in os.listdir(folder):
+            if file_name[-4:] == '.txt' :
+                shutil.copy(os.path.join(folder,file_name), os.path.join(folder_new,file_name))
+    print('\nFiles will be saved in : ' + str(folder_new) + '\n')
+    return folder_new
 
 def f_rename(old_name,new_name,count,error_count):
     try :
@@ -102,33 +123,41 @@ while True:
     count = 1
     # Making a counter for alternative file_names.
     error_count = 1
+    # Makig a European date format for the name of the new folder.
+    date = datetime.datetime.now().strftime("%d-%m-%y")
     
     if folder_input == '':
         # Calls function to select the desired folder.
         folder, folder_input = access_folder()
-        print('Your Folder : ' + str(folder_input) + '\n')
+        print('\nYour Folder : ' + str(folder_input) + '\n')
         
     else :
         ask_par = input('Do you want to rename files in a different folder? (Y/N):')
         if ask_par == 'Y' or ask_par == 'y':
                 # Calls function to select the desired folder.
                 folder, folder_input = access_folder()
-                print('Your Folder : ' + str(folder_input) + '\n')
+                print('\nYour Folder : ' + str(folder_input) + '\n')
         elif ask_par == 'N' or ask_par == 'n':
             break
         else:
             print('Something went wrong. Please type again your answer! \n')
             flag = 1
     if flag == 0:
-        mode = input('Press the coresponding number to choose mode: \n 0. Rename files with ascending numerical order \n 1. Rename files keeping the first n characters \n 2. Rename files keeping the last n characters \n \n PRESS Q or q TO QUIT \n \n Mode: ')
+        Ask_dst_f = input('Do you want to create a new folder with the renamed files? (Y/N) :')
+        if Ask_dst_f == 'Y' or Ask_dst_f == 'y':
+            # Call create_folder fanction to make a new folder
+            folder = create_folder()
+        else:
+            print('\n !!!!! NO EXTRA FOLDER WILL BE MADE. !!!!! \n')
+        mode = input('\nPress the coresponding number to choose mode: \n 0. Rename files with ascending numerical order \n 1. Rename files keeping the first n characters \n 2. Rename files keeping the last n characters \n \n PRESS Q or q TO QUIT \n \n Mode: ')
         if mode == 'Q' or mode == 'q':
             break
         elif mode == '0':
             # Loop for each file in the selected folder.
             for file_name in os.listdir(folder):
-    
-                old_name = folder + file_name
-                new_name = folder + str(count) + '.txt'
+                if file_name[-4:] == '.txt' :
+                    old_name = folder + file_name
+                    new_name = folder + str(count) + '.txt'
                 
                 # Calls Rename function.
                 count = f_rename(old_name, new_name, count, error_count)
@@ -153,8 +182,7 @@ while True:
                     
                 # Prints a sentence for the user, that the operation was successful.
                 print('All ' + str(count - 1) + ' files are renamed.')
-            except Exception as e:
-                print(e)
+            except:
                 print('An error occured! Please try again.')
             print('----------------------------------------------------------------')
             print('\n')
