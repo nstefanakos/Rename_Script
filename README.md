@@ -19,4 +19,4 @@
  
 # Warnings
  - If you choose to run the program through the provided .exe application it may be flagged, before your first run, as a Malware from your Antivirus program.
- - Please use the script carefully, i tried my best to provide a stable code that won't cause any harm on your files, but due to each nature a user error may result to file loss. It will still be stored on your system but without its proper name it will be really hard to be located.
+ - Please use the script carefully, i tried my best to provide a stable code that won't cause any harm on your files, but due to its nature, a user error may result to file loss.
