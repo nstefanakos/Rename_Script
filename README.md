@@ -11,6 +11,7 @@
  1. By Numerical ascending order.
  2. Keeping only some characters from the begining of the name 
  3. Keeping some characters from the end of the name.
+ 4. A custom mode that you provide a name for the files. Each file gets a number in the end of its name, from 1 to the maximum number of the files.
 
 # Notes
  - The .exe application was created only for use in Windows with the help of PyInstaller, making it one file for the ease of use.
