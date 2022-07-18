@@ -1,5 +1,5 @@
 # Rename_Script
- A simple python script with user interface for renaming a huge amount of files all at once with a push of a button.
+ A simple python script with user interface for renaming a huge amount of files all at once, with a push of a button.
 
 # Usage
 1. Open either the src.py script through terminal or click on the .exe application located in the dist folder.
@@ -15,7 +15,8 @@
 
 # Notes
  - The .exe application was created only for use in Windows with the help of PyInstaller, making it one file for the ease of use.
- - At its current version it only supports .txt files.
+ - It supports by default 4 file types (.txt, .jpg, .png, .pdf). You can add your own at the designated entry box.
+ - There is no function to convert file types. You can only rename a file keeping the format intact, so use the program accordingly.
  
 # Warnings
  - If you choose to run the program through the provided .exe application it may be flagged, on the first run, as a Malware from your Antivirus program.

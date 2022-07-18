@@ -25,7 +25,7 @@ def access_folder():
     Entry_field.insert(0,folder_input)
     Entry_field.grid(row = 0, column = 1, columnspan = 2,  padx = 10, pady = 10)
 
-def create_folder():
+def create_folder(f_type,f_length):
     # Making a European date format to name the new folder.
     date = datetime.datetime.now().strftime("%d-%m-%y")
     
@@ -43,7 +43,7 @@ def create_folder():
     finally:
         if ask_cont == "yes": 
             for file_name in os.listdir(folder):
-                if file_name[-4:] == '.txt' :
+                if file_name[-f_length:] == f_type :
                     shutil.copy(os.path.join(folder,file_name), os.path.join(folder_new,file_name))
         else:
             folder_new = folder
@@ -106,7 +106,7 @@ def f_rename_2(old_name,new_name,file_name,val,mode,count,error_count):
     except :
         messagebox.showwarning("WARNING", "Something went wrong with the file " + old_name + "!")
 
-def rename_b(folder_input,cus_name,Copy,mode,n):
+def rename_b(folder_input,cus_name,f_type,Copy,mode,file_type,n):
     # Making a flag variable to prevent the program to run if the folder path is not correct.
     flag = 0
     # Making a variable that will be used to name each file.
@@ -117,6 +117,21 @@ def rename_b(folder_input,cus_name,Copy,mode,n):
     global folder
     folder = folder_input + '\\'
 
+    if file_type == 0:
+        f_type = '.txt'
+        f_length = len(f_type)
+    elif file_type == 1:
+        f_type = '.jpg'
+        f_length = len(f_type)
+    elif file_type == 2:
+        f_type = '.png'
+        f_length = len(f_type)
+    elif file_type == 3:
+        f_type = '.pdf'
+        f_length = len(f_type)
+    elif file_type == 4:
+        f_length = len(f_type)
+
     if folder_input == "":
         messagebox.showwarning("WARNING", "You haven't selected a folder!")
         
@@ -124,7 +139,7 @@ def rename_b(folder_input,cus_name,Copy,mode,n):
 
         if Copy == 1:
             # Call create_folder fanction to make a new folder
-            folder = create_folder()
+            folder = create_folder(f_type, f_length)
         
         else:
             messagebox.showinfo("NO NEW FOLDER", "The renamed files will remain in their current location.")
@@ -133,12 +148,12 @@ def rename_b(folder_input,cus_name,Copy,mode,n):
             try:
                 # Loop for each file in the selected folder.
                 for file_name in os.listdir(folder):
-                    if file_name[-4:] == '.txt' :
+                    if file_name[-f_length:] == f_type :
                         old_name = folder + file_name
-                        new_name = folder + str(count) + '.txt'
+                        new_name = folder + str(count) + f_type
                     
-                    # Calls Rename function.
-                    count = f_rename(old_name, new_name, count, error_count)
+                        # Calls Rename function.
+                        count = f_rename(old_name, new_name, count, error_count)
                     
                 # Prints a message for the user, that the operation was successful.
                 messagebox.showinfo("SUCCESS", "All " + str(count - 1) + " files are renamed.")
@@ -149,17 +164,17 @@ def rename_b(folder_input,cus_name,Copy,mode,n):
             try:
                 # Loop for each file in the selected folder.
                 for file_name in os.listdir(folder):
-                    if file_name[-4:] == '.txt' :
+                    if file_name[-f_length:] == f_type :
                         old_name = folder + file_name
                         
                         # Creating a new file name without the extension.
                         fn_no_ext = os.path.splitext(file_name)[0]
                         
                         # Creating a new name for the file keeping only the desired amount of characters.
-                        new_name = folder + fn_no_ext[0:int(n)] + '.txt'
+                        new_name = folder + fn_no_ext[0:int(n)] + f_type
 
-                    # Calls Rename function.
-                    count = f_rename_2(old_name, new_name, file_name, n, mode, count, error_count)
+                        # Calls Rename function.
+                        count = f_rename_2(old_name, new_name, file_name, n, mode, count, error_count)
                     
                 # Prints a message for the user, that the operation was successful.
                 messagebox.showinfo("SUCCESS", "All " + str(count - 1) + " files are renamed.")
@@ -170,7 +185,7 @@ def rename_b(folder_input,cus_name,Copy,mode,n):
             try:
                 # Loop for each file in the selected folder.
                 for file_name in os.listdir(folder):
-                    if file_name[-4:] == '.txt' :
+                    if file_name[-f_length:] == f_type :
                         old_name = folder + file_name
                         
                         # Creating a new file name without the extension.
@@ -178,10 +193,10 @@ def rename_b(folder_input,cus_name,Copy,mode,n):
                         length = len(fn_no_ext)
                         
                         # Creating a new name for the file keeping only the desired amount of characters.
-                        new_name = folder + fn_no_ext[- int(n):length] + '.txt'
+                        new_name = folder + fn_no_ext[- int(n):length] + f_type
 
-                    # Calls Rename function.
-                    count = f_rename_2(old_name, new_name, file_name, n, mode, count, error_count)
+                        # Calls Rename function.
+                        count = f_rename_2(old_name, new_name, file_name, n, mode, count, error_count)
                     
                 # Prints a message for the user, that the operation was successful.
                 messagebox.showinfo("SUCCESS", "All " + str(count - 1) + " files are renamed.")
@@ -192,12 +207,12 @@ def rename_b(folder_input,cus_name,Copy,mode,n):
             try:
                 # Loop for each file in the selected folder.
                 for file_name in os.listdir(folder):
-                    if file_name[-4:] == '.txt' :
+                    if file_name[-f_length:] == f_type :
                         old_name = folder + file_name
-                        new_name = folder + cus_name + "_" + str(count) + '.txt'
+                        new_name = folder + cus_name + "_" + str(count) + f_type
 
-                    # Calls Rename function.
-                    count = f_rename(old_name, new_name, count, error_count)
+                        # Calls Rename function.
+                        count = f_rename(old_name, new_name, count, error_count)
                     
                 # Prints a message for the user, that the operation was successful.
                 messagebox.showinfo("SUCCESS", "All " + str(count - 1) + " files are renamed.")
@@ -208,9 +223,10 @@ root = Tk()
 
 # Creating frames in the tk window
 Folder_frame = LabelFrame(root, text = "Folder", padx = 10, pady = 10)
+Folder_frame_2 = LabelFrame(Folder_frame, text = "File Type", padx = 20, pady = 10)
 Modes_frame = LabelFrame(root, text = "Mode", padx = 10, pady = 10)
-Mode_frame_2 = LabelFrame(Modes_frame, relief = FLAT, padx = 10, pady = 10)
-Mode_option_frame = LabelFrame(Modes_frame, text = "Options", padx = 10, pady = 10)
+Modes_frame_2 = LabelFrame(Modes_frame, relief = FLAT, padx = 10, pady = 10)
+Modes_option_frame = LabelFrame(Modes_frame, text = "Options", padx = 10, pady = 10)
 
 # Renaming the title of the tk window to "Rename program"
 root.title("Rename program")
@@ -220,27 +236,43 @@ root.resizable(False,False)
 
 # Create Labels
 Label1 = Label(Folder_frame, text = "Your folder :")
-Label2 = Label(Mode_option_frame, text = "** Number of characters :")
-Label3 = Label(Mode_option_frame, text = "*** Custom name :")
+Label2 = Label(Modes_option_frame, text = "** Number of characters :")
+Label3 = Label(Modes_option_frame, text = "*** Custom name :")
 Hint = Label(Folder_frame, text = "Click the Browse button to choose a folder", fg = 'red')
 Hint_2 = Label(Folder_frame, text = "* You will have to choose where the folder will be saved, after you press the 'RENAME' button", fg = 'red')
-Hint_3 = Label(Mode_option_frame, text = "Don't use characters as ( / , \ or - ) for the custom name.", fg = 'red')
+Hint_3 = Label(Modes_option_frame, text = "Don't use characters as ( / , \ or - ) for the custom name.", fg = 'red')
+Hint_4 = Label(Folder_frame_2, text = "Valid file types are written as '.txt', '.jpg', '.pdf'.", fg = 'red')
 
 # Create input/output fields
 Entry_field = Entry(Folder_frame, width = 85, borderwidth = 2, state = DISABLED)
-Entry_field_2 = Entry(Mode_option_frame, width = 30, borderwidth = 2)
-N_char = Entry(Mode_option_frame, width = 5, justify = CENTER, borderwidth = 2)
+Entry_field_2 = Entry(Modes_option_frame, width = 30, borderwidth = 2)
+Entry_field_3 = Entry(Folder_frame_2, width = 10, justify = CENTER, borderwidth = 2)
+N_char = Entry(Modes_option_frame, width = 5, justify = CENTER, borderwidth = 2)
 
 # Create clickable buttons
 Folder_Button = Button(Folder_frame, text="Browse", command = access_folder)
-Rename_Button = Button(root, text="RENAME", padx = 10, pady = 3, command = lambda: rename_b(Entry_field.get(),Entry_field_2.get(),Copy.get(),mode.get(),N_char.get()))
+Rename_Button = Button(root, text="RENAME", padx = 10, pady = 3, command = lambda: rename_b(Entry_field.get(),Entry_field_2.get(),Entry_field_3.get(),Copy.get(),mode.get(),f_type.get(),N_char.get()))
 Exit_Button = Button(root, text="EXIT", command=root.quit, padx = 10, pady = 3)
 
 # Create Checkbuttons
 Copy = IntVar()
 Copy_b = Checkbutton (Folder_frame, text="Create a new folder with the renamed files *", variable = Copy, padx = 10, pady = 10)
 
-# Create Radio butons to select mode and put it in the Modes frame
+# Create Radio butons
+TYPES = [
+    ("TEXT",0),
+    ("JPEG",1),
+    ("PNG",2),
+    ("PDF",3),
+    ("Custom file type :",4)
+    ]
+
+f_type = IntVar()
+f_type.set(0)
+
+for text, value in TYPES:
+    Radiobutton(Folder_frame_2, text = text, variable = f_type, value = value).grid(row = value, column = 0, sticky = W)
+
 MODES = [
     ("Numerical Ascending Order",0),
     ("Keep First n Characters **",1),
@@ -252,25 +284,28 @@ mode = IntVar()
 mode.set(0)
 
 for text, value in MODES:
-    Radiobutton(Mode_frame_2, text = text, variable = mode, value = value).pack(anchor = W)
+    Radiobutton(Modes_frame_2, text = text, variable = mode, value = value).pack(anchor = W)
     
 # Put Frames on the tk window
 Folder_frame.pack(fill="both", expand="yes", padx = 10, pady = 2)
+Folder_frame_2.grid(row = 2, column = 0, columnspan = 2, pady = 10)
 Modes_frame.pack(fill="both", expand="yes", padx = 10, pady = 10)
-Mode_frame_2.grid(row  = 0, column = 0, padx = 20)
-Mode_option_frame.grid(row = 0, column = 1, padx = 10)
+Modes_frame_2.grid(row  = 0, column = 0, padx = 20)
+Modes_option_frame.grid(row = 0, column = 1, padx = 10)
 
 # Put Labels on the grid of the Folder frame
 Label1.grid(row = 0, column = 0)
 Label2.grid(row = 0, column = 0)
 Label3.grid(row = 1, column = 0)
 Hint.grid(row = 1, column = 1, columnspan = 2)
-Hint_2.grid(row = 3, column = 0, columnspan = 4)
+Hint_2.grid(row = 4, column = 0, columnspan = 4)
 Hint_3.grid(row = 2, column = 0, columnspan = 3)
+Hint_4.grid(row = 5, column = 0, columnspan = 2)
 
 # Put input/output fields on the tk window
 Entry_field.grid(row = 0, column = 1, columnspan = 2,  padx = 10, pady = 10)
 Entry_field_2.grid(row = 1, column = 1, columnspan = 2,  padx = 10, pady = 10)
+Entry_field_3.grid(row = 4, column = 1, rowspan = 1,  padx = 10, pady = 10)
 N_char.grid(row = 0, column = 1, columnspan = 2, padx = 10, pady = 10)
 
 # Put Buttons on the tk window
@@ -279,7 +314,7 @@ Rename_Button.pack(expand = "yes", fill = "both", padx = 10, pady = 5)
 Exit_Button.pack(side = RIGHT, padx = 10, pady = 2)
 
 # Put Checkbuttons on the grid of the Folder frame
-Copy_b.grid(row = 2, column = 0, columnspan = 2)
+Copy_b.grid(row = 3, column = 0, columnspan = 2)
 
 
 root.mainloop()
